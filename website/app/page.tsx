@@ -234,7 +234,7 @@ export default function Home() {
             onClick={getRandomEmail}
             className="px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 hover:text-white border border-slate-200 dark:border-slate-700"
           >
-            🎲 Surprise Me
+            📧 Read a random email
           </button>
 
           {/* Favorites Toggle */}
