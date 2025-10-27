@@ -155,7 +155,7 @@ export default function Home() {
           </h1>
 
           <p className="text-2xl text-slate-600 dark:text-slate-400 mb-4 font-light">
-            {emails.length} emails • November 2022 – October 2025
+            {emails.length} emails • September 2021 – October 2025
           </p>
         </div>
 
@@ -177,7 +177,7 @@ export default function Home() {
 
               <div className="pt-6 border-t border-slate-200 dark:border-slate-700">
                 <p className="text-slate-600 dark:text-slate-400 text-base mb-4">
-                  This archive contains emails from <strong className="text-slate-900 dark:text-slate-100">November 12, 2022</strong> through his final email on <strong className="text-slate-900 dark:text-slate-100">October 23, 2025</strong>.
+                  This archive contains emails from <strong className="text-slate-900 dark:text-slate-100">September 17, 2021</strong> through his final email on <strong className="text-slate-900 dark:text-slate-100">October 23, 2025</strong>.
                 </p>
                 <p className="text-slate-600 dark:text-slate-400 text-sm">
                   If you'd like to contribute to this archive, please DM me or reach out at{' '}
