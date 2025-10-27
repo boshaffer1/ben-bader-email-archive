@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pickle
+*.pyc
+.env
+
+# Credentials (NEVER COMMIT)
+credentials.json
+token.pickle
+
+# Data files (optional - commit if you want to share)
+data/raw_emails.json
+data/emails.csv
+data/embeddings.json
+data/topics.json
+
+# Node
+node_modules/
+.next/
+out/
+
+# System
+.DS_Store
+*.log
