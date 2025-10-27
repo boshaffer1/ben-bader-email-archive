@@ -14,6 +14,7 @@ interface Email {
   snippet: string
   body: string
   timestamp?: string
+  sentiments?: string[]
 }
 
 interface Topic {
@@ -39,6 +40,7 @@ export default function Home() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set())
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
   const [randomEmail, setRandomEmail] = useState<Email | null>(null)
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(null)
 
   useEffect(() => {
     async function loadData() {
@@ -106,6 +108,8 @@ export default function Home() {
     return new Date(timestamp).getFullYear()
   }))).sort((a, b) => b - a)
 
+  const styles = Array.from(new Set(emails.flatMap(email => email.sentiments || []))).sort()
+
   const filteredEmails = emails
     .filter(email => {
       const matchesSearch = searchQuery === '' ||
@@ -120,7 +124,10 @@ export default function Home() {
 
       const matchesFavorites = !showFavoritesOnly || favorites.has(email.id)
 
-      return matchesSearch && matchesTopic && matchesYear && matchesFavorites
+      const matchesStyle = !selectedStyle ||
+        email.sentiments?.includes(selectedStyle)
+
+      return matchesSearch && matchesTopic && matchesYear && matchesFavorites && matchesStyle
     })
     .sort((a, b) => {
       const timeA = parseInt(a.timestamp || '0')
@@ -276,6 +283,38 @@ export default function Home() {
                   }`}
                 >
                   {year}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Style Filter */}
+        {styles.length > 0 && (
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Style:</span>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setSelectedStyle(null)}
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                  selectedStyle === null
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                    : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
+                }`}
+              >
+                All Styles
+              </button>
+              {styles.map(style => (
+                <button
+                  key={style}
+                  onClick={() => setSelectedStyle(style)}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                    selectedStyle === style
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
+                      : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
+                  }`}
+                >
+                  {style}
                 </button>
               ))}
             </div>

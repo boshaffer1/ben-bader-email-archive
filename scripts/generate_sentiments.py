@@ -115,11 +115,7 @@ def main():
 
     generator.load_emails()
 
-    confirm = input(f"\n⚠️  This will analyze {len(generator.emails)} emails (~$2-5 cost). Continue? (y/n): ")
-
-    if confirm.lower() != 'y':
-        print("❌ Cancelled")
-        return
+    print(f"\n✓ Starting sentiment analysis for {len(generator.emails)} emails...")
 
     generator.generate_all_sentiments()
     generator.save_emails()
