@@ -20,6 +20,9 @@ function decodeHtmlEntities(text: string): string {
 
 function replaceNamePlaceholders(text: string, userName: string): string {
   let result = text
+  // Replace ConvertKit merge field
+  result = result.replace(/\{\{\s*subscriber\.first_name\s*\}\}/g, userName)
+  // Replace other variations
   result = result.replace(/\bAdam\b/g, userName)
   result = result.replace(/\bBo\b/g, userName)
   result = result.replace(/\bB\b/g, userName)
