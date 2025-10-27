@@ -1,0 +1,80 @@
+{
+  "topic_1": {
+    "name": "Greeting Variations",
+    "email_count": 2,
+    "emails": [
+      {
+        "id": "manual_11_12_2022",
+        "subject": "Shalom",
+        "date": "11/12/2022",
+        "snippet": "Yo first_name,  You really think I'm that dumb?  Come on.  I bet you're like \"WTF did I just subscribe to?\"  This kid has an email list and he doesn't even know how to personalize emails???  For the r"
+      },
+      {
+        "id": "manual_11_22_2022",
+        "subject": "Shalom",
+        "date": "11/22/2022",
+        "snippet": "Yo first_name,\n\nYou really think I'm that dumb?\n\nCome on.\n\nI bet you're like \"WTF did I just subscribe to?\"\n\nThis kid has an email list and he doesn't even know how to personalize emails???\n\nFor the r"
+      }
+    ]
+  },
+  "topic_0": {
+    "name": "Personal Connection",
+    "email_count": 7,
+    "emails": [
+      {
+        "id": "manual_2_20_2023",
+        "subject": "i got you breakfast Adam",
+        "date": "2/20/2023",
+        "snippet": "It's 10:11 am, and I just sat down inside my favorite coffee spot in Miami.\n\nThe sweet lady who takes my order every day seemed kind of sad, so I bought her an iced latte.\n\nI wasn't planning on writin"
+      },
+      {
+        "id": "manual_2_24_2023",
+        "subject": "the most important questions of your life",
+        "date": "2/24/2023",
+        "snippet": "Good morning Adam,\n\nHave you ever wondered why there's a space between good and morning but no space in goodnight?\n\nMe too.\n\nJust another piece of mind-controlling government propaganda we've all been"
+      },
+      {
+        "id": "manual_3_6_2023",
+        "subject": "get high with Jordan Peterson",
+        "date": "3/6/2023",
+        "snippet": "Yo Adam,  Happy Monday.  Yesterday I figured out how to add an auto-plug tweet that drops my newsletter link and got a bunch of new subscribers.  So if you're new here, welcome Adam. Pleasure to have "
+      },
+      {
+        "id": "manual_3_15_2023",
+        "subject": "don't open",
+        "date": "3/15/2023",
+        "snippet": "It's 12:21am in Brickell and I feel like a fool.  Business is good. Deals are happening like crazy, should be another record month, have a clear path to $100k per month.  But that's not why we're here"
+      },
+      {
+        "id": "manual_4_3_2023",
+        "subject": "i'm still alive",
+        "date": "4/3/2023",
+        "snippet": "I missed you Adam.  A lot has changed since we last spoke.  For starters I rearranged my desk, got a new rug, started drinking black coffee, and had a baby.  One of the things in the sentence may not "
+      },
+      {
+        "id": "manual_4_4_2023",
+        "subject": "what was your day like",
+        "date": "4/4/2023",
+        "snippet": "Hey Adam, how was your day?  Mine was good too.  When I was in the shower earlier I realized that the thousand dollar Herman Miller chair I'm sitting in right now was kind of a scam.  Sure it's kinda "
+      },
+      {
+        "id": "manual_4_5_2023",
+        "subject": "you have more to say than you think you do",
+        "date": "4/5/2023",
+        "snippet": "Your story is unique. That's what makes it interesting.  You think people don't care, and to an extent - most don't.  But there's always gonna be a pocket of people that resonate with your message.  N"
+      }
+    ]
+  },
+  "topic_2": {
+    "name": "Identity Misunderstanding",
+    "email_count": 1,
+    "emails": [
+      {
+        "id": "manual_4_6_2023",
+        "subject": "i'm not who you think i am",
+        "date": "4/6/2023",
+        "snippet": "I'm not who you think I am.  And you're probably not who I think you are either.  I've been back on the Zyns if you couldn't tell.  Some bad habits just seem to only have positive effects.  At least i"
+      }
+    ]
+  }
+}

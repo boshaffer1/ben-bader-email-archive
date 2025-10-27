@@ -35,6 +35,10 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [userName, setUserName] = useState('friend')
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest')
+  const [selectedYear, setSelectedYear] = useState<number | null>(null)
+  const [favorites, setFavorites] = useState<Set<string>>(new Set())
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false)
+  const [randomEmail, setRandomEmail] = useState<Email | null>(null)
 
   useEffect(() => {
     async function loadData() {
@@ -65,6 +69,43 @@ export default function Home() {
     loadData()
   }, [])
 
+  // Load favorites from localStorage
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem('emailFavorites')
+    if (savedFavorites) {
+      setFavorites(new Set(JSON.parse(savedFavorites)))
+    }
+  }, [])
+
+  // Save favorites to localStorage
+  useEffect(() => {
+    localStorage.setItem('emailFavorites', JSON.stringify(Array.from(favorites)))
+  }, [favorites])
+
+  const toggleFavorite = (emailId: string) => {
+    setFavorites(prev => {
+      const newFavorites = new Set(prev)
+      if (newFavorites.has(emailId)) {
+        newFavorites.delete(emailId)
+      } else {
+        newFavorites.add(emailId)
+      }
+      return newFavorites
+    })
+  }
+
+  const getRandomEmail = () => {
+    if (filteredEmails.length > 0) {
+      const randomIndex = Math.floor(Math.random() * filteredEmails.length)
+      setRandomEmail(filteredEmails[randomIndex])
+    }
+  }
+
+  const years = Array.from(new Set(emails.map(email => {
+    const timestamp = parseInt(email.timestamp || '0')
+    return new Date(timestamp).getFullYear()
+  }))).sort((a, b) => b - a)
+
   const filteredEmails = emails
     .filter(email => {
       const matchesSearch = searchQuery === '' ||
@@ -74,7 +115,12 @@ export default function Home() {
       const matchesTopic = !selectedTopic ||
         topics[selectedTopic]?.emails.some(e => e.id === email.id)
 
-      return matchesSearch && matchesTopic
+      const matchesYear = !selectedYear ||
+        new Date(parseInt(email.timestamp || '0')).getFullYear() === selectedYear
+
+      const matchesFavorites = !showFavoritesOnly || favorites.has(email.id)
+
+      return matchesSearch && matchesTopic && matchesYear && matchesFavorites
     })
     .sort((a, b) => {
       const timeA = parseInt(a.timestamp || '0')
@@ -155,8 +201,9 @@ export default function Home() {
           placeholder="Search emails..."
         />
 
-        <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Sort by:</span>
+        {/* Sort and Actions Bar */}
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Sort:</span>
           <div className="flex gap-2">
             <button
               onClick={() => setSortOrder('newest')}
@@ -166,7 +213,7 @@ export default function Home() {
                   : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
               }`}
             >
-              Newest First
+              Newest
             </button>
             <button
               onClick={() => setSortOrder('oldest')}
@@ -176,10 +223,64 @@ export default function Home() {
                   : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
               }`}
             >
-              Oldest First
+              Oldest
             </button>
           </div>
+
+          <div className="h-6 w-px bg-slate-300 dark:bg-slate-700"></div>
+
+          {/* Random Email Button */}
+          <button
+            onClick={getRandomEmail}
+            className="px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 hover:text-white border border-slate-200 dark:border-slate-700"
+          >
+            🎲 Surprise Me
+          </button>
+
+          {/* Favorites Toggle */}
+          <button
+            onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+              showFavoritesOnly
+                ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg'
+                : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
+            }`}
+          >
+            ❤️ {showFavoritesOnly ? `Favorites (${favorites.size})` : 'Show Favorites'}
+          </button>
         </div>
+
+        {/* Year Filter */}
+        {years.length > 0 && (
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Year:</span>
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => setSelectedYear(null)}
+                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                  selectedYear === null
+                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
+                    : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
+                }`}
+              >
+                All Years
+              </button>
+              {years.map(year => (
+                <button
+                  key={year}
+                  onClick={() => setSelectedYear(year)}
+                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                    selectedYear === year
+                      ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
+                      : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
+                  }`}
+                >
+                  {year}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -194,7 +295,14 @@ export default function Home() {
         )}
 
         <div className={Object.keys(topics).length > 0 ? 'lg:col-span-3' : 'lg:col-span-4'}>
-          <EmailList emails={filteredEmails} userName={userName} />
+          <EmailList
+            emails={filteredEmails}
+            userName={userName}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+            randomEmail={randomEmail}
+            onCloseRandom={() => setRandomEmail(null)}
+          />
         </div>
       </div>
 
