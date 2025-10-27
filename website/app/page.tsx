@@ -106,7 +106,7 @@ export default function Home() {
   const years = Array.from(new Set(emails.map(email => {
     const timestamp = parseInt(email.timestamp || '0')
     return new Date(timestamp).getFullYear()
-  }))).sort((a, b) => b - a)
+  }).filter(year => year >= 2021))).sort((a, b) => b - a)
 
   const styles = Array.from(new Set(emails.flatMap(email => email.sentiments || []))).sort()
 
@@ -144,32 +144,32 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen py-16 px-6 max-w-7xl mx-auto">
-      <header className="mb-20 text-center">
+    <main className="min-h-screen py-8 md:py-16 px-4 md:px-6 max-w-7xl mx-auto">
+      <header className="mb-12 md:mb-20 text-center">
         {/* Hero Section */}
-        <div className="mb-12">
-          <div className="relative inline-block mb-8">
+        <div className="mb-8 md:mb-12">
+          <div className="relative inline-block mb-6 md:mb-8">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-full blur-2xl"></div>
             <img
               src="/ben-bader.jpg"
               alt="Ben Bader"
-              className="relative w-56 h-56 rounded-full mx-auto object-cover shadow-2xl border-4 border-white/80 dark:border-white/10"
+              className="relative w-40 h-40 md:w-56 md:h-56 rounded-full mx-auto object-cover shadow-2xl border-4 border-white/80 dark:border-white/10"
             />
           </div>
 
-          <h1 className="text-6xl md:text-7xl font-bold mb-6 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 dark:from-white dark:via-blue-200 dark:to-white bg-clip-text text-transparent leading-tight">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 dark:from-white dark:via-blue-200 dark:to-white bg-clip-text text-transparent leading-tight px-4">
             Ben Bader<br/>Email Archive
           </h1>
 
-          <p className="text-2xl text-slate-600 dark:text-slate-400 mb-4 font-light">
+          <p className="text-lg md:text-2xl text-slate-600 dark:text-slate-400 mb-4 font-light px-4">
             {emails.length} emails • September 2021 – October 2025
           </p>
         </div>
 
         {/* Tribute Section */}
-        <div className="max-w-4xl mx-auto space-y-8 mb-16">
-          <div className="bg-white/60 dark:bg-slate-800/40 backdrop-blur-xl rounded-3xl p-12 shadow-2xl border border-slate-200/50 dark:border-slate-700/50">
-            <div className="space-y-6 text-lg leading-relaxed">
+        <div className="max-w-4xl mx-auto space-y-8 mb-12 md:mb-16 px-4">
+          <div className="bg-white/60 dark:bg-slate-800/40 backdrop-blur-xl rounded-2xl md:rounded-3xl p-6 md:p-12 shadow-2xl border border-slate-200/50 dark:border-slate-700/50">
+            <div className="space-y-4 md:space-y-6 text-base md:text-lg leading-relaxed">
               <p className="text-slate-700 dark:text-slate-300">
                 If you knew Ben, you knew how amazing of a writer he was. He had a way with words that could inspire, motivate, and move you to action. He was a copywriter after all—one of the best.
               </p>
@@ -201,7 +201,7 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="mb-8 space-y-4">
+      <div className="mb-6 md:mb-8 space-y-3 md:space-y-4">
         <SearchBar
           value={searchQuery}
           onChange={setSearchQuery}
@@ -209,12 +209,12 @@ export default function Home() {
         />
 
         {/* Sort and Actions Bar */}
-        <div className="flex flex-wrap items-center gap-3">
-          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Sort:</span>
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
+          <span className="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-300">Sort:</span>
           <div className="flex gap-2">
             <button
               onClick={() => setSortOrder('newest')}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+              className={`px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all ${
                 sortOrder === 'newest'
                   ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
                   : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
@@ -224,7 +224,7 @@ export default function Home() {
             </button>
             <button
               onClick={() => setSortOrder('oldest')}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+              className={`px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all ${
                 sortOrder === 'oldest'
                   ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
                   : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
@@ -234,49 +234,49 @@ export default function Home() {
             </button>
           </div>
 
-          <div className="h-6 w-px bg-slate-300 dark:bg-slate-700"></div>
+          <div className="hidden md:block h-6 w-px bg-slate-300 dark:bg-slate-700"></div>
 
           {/* Random Email Button */}
           <button
             onClick={getRandomEmail}
-            className="px-4 py-2 rounded-xl text-sm font-medium transition-all bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 hover:text-white border border-slate-200 dark:border-slate-700"
+            className="px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600 hover:text-white border border-slate-200 dark:border-slate-700"
           >
-            📧 Read a random email
+            📧 <span className="hidden sm:inline">Read a </span>random<span className="hidden sm:inline"> email</span>
           </button>
 
           {/* Favorites Toggle */}
           <button
             onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+            className={`px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all ${
               showFavoritesOnly
                 ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg'
                 : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
             }`}
           >
-            ❤️ {showFavoritesOnly ? `Favorites (${favorites.size})` : 'Show Favorites'}
+            ❤️ {showFavoritesOnly ? `Favorites (${favorites.size})` : <><span className="hidden sm:inline">Show </span>Favorites</>}
           </button>
         </div>
 
         {/* Year Filter */}
         {years.length > 0 && (
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Year:</span>
+          <div className="flex flex-wrap items-center gap-2 md:gap-3">
+            <span className="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-300">Year:</span>
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedYear(null)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                className={`px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all ${
                   selectedYear === null
                     ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
                     : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
                 }`}
               >
-                All Years
+                All<span className="hidden sm:inline"> Years</span>
               </button>
               {years.map(year => (
                 <button
                   key={year}
                   onClick={() => setSelectedYear(year)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                  className={`px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all ${
                     selectedYear === year
                       ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
                       : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
@@ -291,24 +291,24 @@ export default function Home() {
 
         {/* Style Filter */}
         {styles.length > 0 && (
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Style:</span>
+          <div className="flex flex-wrap items-center gap-2 md:gap-3">
+            <span className="text-xs md:text-sm font-medium text-slate-700 dark:text-slate-300">Style:</span>
             <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => setSelectedStyle(null)}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                className={`px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all ${
                   selectedStyle === null
                     ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
                     : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
                 }`}
               >
-                All Styles
+                All<span className="hidden sm:inline"> Styles</span>
               </button>
               {styles.map(style => (
                 <button
                   key={style}
                   onClick={() => setSelectedStyle(style)}
-                  className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                  className={`px-3 md:px-4 py-2 rounded-xl text-xs md:text-sm font-medium transition-all ${
                     selectedStyle === style
                       ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg'
                       : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'

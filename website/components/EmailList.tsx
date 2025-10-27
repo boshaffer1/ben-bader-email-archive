@@ -86,11 +86,11 @@ export default function EmailList({
 
   return (
     <div>
-      <div className="space-y-6">
+      <div className="space-y-4 md:space-y-6">
         {emails.map(email => (
           <div
             key={email.id}
-            className="group relative bg-white/60 dark:bg-slate-800/40 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-2xl p-8 hover:shadow-2xl hover:border-blue-200 dark:hover:border-blue-800 transition-all duration-300"
+            className="group relative bg-white/60 dark:bg-slate-800/40 backdrop-blur-sm border border-slate-200/50 dark:border-slate-700/50 rounded-xl md:rounded-2xl p-5 md:p-8 hover:shadow-2xl hover:border-blue-200 dark:hover:border-blue-800 transition-all duration-300"
           >
             {/* Favorite Button */}
             <button
@@ -98,7 +98,7 @@ export default function EmailList({
                 e.stopPropagation()
                 onToggleFavorite(email.id)
               }}
-              className="absolute top-4 right-4 text-2xl transition-transform hover:scale-125 z-10"
+              className="absolute top-3 right-3 md:top-4 md:right-4 text-xl md:text-2xl transition-transform hover:scale-125 z-10"
               aria-label="Toggle favorite"
             >
               {favorites.has(email.id) ? '❤️' : '🤍'}
@@ -109,17 +109,17 @@ export default function EmailList({
               onClick={() => setSelectedEmail(email)}
               className="cursor-pointer"
             >
-              <h3 className="text-2xl font-semibold mb-3 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors pr-12">
-                {decodeHtmlEntities(email.subject)}
+              <h3 className="text-lg md:text-2xl font-semibold mb-2 md:mb-3 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors pr-10 md:pr-12">
+                {replaceNamePlaceholders(decodeHtmlEntities(email.subject), userName)}
               </h3>
-              <div className="text-sm font-medium text-blue-600 dark:text-blue-400 mb-4">
+              <div className="text-xs md:text-sm font-medium text-blue-600 dark:text-blue-400 mb-3 md:mb-4">
                 {new Date(parseInt(email.timestamp || '0')).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
                 })}
               </div>
-              <p className="text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
+              <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
                 {replaceNamePlaceholders(decodeHtmlEntities(email.snippet), userName)}
               </p>
             </div>
@@ -129,21 +129,21 @@ export default function EmailList({
 
       {selectedEmail && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 md:p-4 z-50 animate-in fade-in duration-200"
           onClick={() => setSelectedEmail(null)}
         >
           <div
-            className="bg-white dark:bg-slate-900 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-12 shadow-2xl border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-300"
+            className="bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-12 shadow-2xl border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-300"
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex justify-between items-start mb-8">
-              <div>
-                <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-white leading-tight">
-                  {decodeHtmlEntities(selectedEmail.subject)}
+            <div className="flex justify-between items-start mb-6 md:mb-8">
+              <div className="flex-1 pr-4">
+                <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-4 text-slate-900 dark:text-white leading-tight">
+                  {replaceNamePlaceholders(decodeHtmlEntities(selectedEmail.subject), userName)}
                 </h2>
                 <div className="space-y-1 text-slate-600 dark:text-slate-400">
-                  <div className="font-medium">{selectedEmail.from}</div>
-                  <div className="text-sm">
+                  <div className="font-medium text-sm md:text-base">{selectedEmail.from}</div>
+                  <div className="text-xs md:text-sm">
                     {new Date(parseInt(selectedEmail.timestamp || '0')).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -156,17 +156,16 @@ export default function EmailList({
               </div>
               <button
                 onClick={() => setSelectedEmail(null)}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-3xl transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl md:text-3xl transition-colors p-1 md:p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full flex-shrink-0"
               >
                 ×
               </button>
             </div>
-            <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-slate-900 dark:prose-headings:text-white prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-a:text-blue-600 dark:prose-a:text-blue-400">
+            <div className="prose prose-base md:prose-lg dark:prose-invert max-w-none prose-headings:text-slate-900 dark:prose-headings:text-white prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-a:text-blue-600 dark:prose-a:text-blue-400">
               <div
                 dangerouslySetInnerHTML={{ __html: formattedBody }}
-                className="whitespace-pre-wrap leading-relaxed"
+                className="whitespace-pre-wrap leading-relaxed text-sm md:text-base"
                 style={{
-                  fontSize: '1.0625rem',
                   lineHeight: '1.8'
                 }}
               />
@@ -178,25 +177,25 @@ export default function EmailList({
       {/* Random Email Modal */}
       {randomEmail && (
         <div
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-in fade-in duration-200"
+          className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 md:p-4 z-50 animate-in fade-in duration-200"
           onClick={onCloseRandom}
         >
           <div
-            className="bg-white dark:bg-slate-900 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-12 shadow-2xl border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-300"
+            className="bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-12 shadow-2xl border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-300"
             onClick={e => e.stopPropagation()}
           >
-            <div className="flex justify-between items-start mb-8">
-              <div className="flex-1">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-2xl">🎲</span>
-                  <span className="text-sm font-medium text-purple-600 dark:text-purple-400">Random Email</span>
+            <div className="flex justify-between items-start mb-6 md:mb-8">
+              <div className="flex-1 pr-4">
+                <div className="flex items-center gap-2 md:gap-3 mb-3 md:mb-4">
+                  <span className="text-xl md:text-2xl">🎲</span>
+                  <span className="text-xs md:text-sm font-medium text-purple-600 dark:text-purple-400">Random Email</span>
                 </div>
-                <h2 className="text-4xl font-bold mb-4 text-slate-900 dark:text-white leading-tight">
-                  {decodeHtmlEntities(randomEmail.subject)}
+                <h2 className="text-2xl md:text-4xl font-bold mb-3 md:mb-4 text-slate-900 dark:text-white leading-tight">
+                  {replaceNamePlaceholders(decodeHtmlEntities(randomEmail.subject), userName)}
                 </h2>
                 <div className="space-y-1 text-slate-600 dark:text-slate-400">
-                  <div className="font-medium">{randomEmail.from}</div>
-                  <div className="text-sm">
+                  <div className="font-medium text-sm md:text-base">{randomEmail.from}</div>
+                  <div className="text-xs md:text-sm">
                     {new Date(parseInt(randomEmail.timestamp || '0')).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -209,17 +208,16 @@ export default function EmailList({
               </div>
               <button
                 onClick={onCloseRandom}
-                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-3xl transition-colors p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"
+                className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl md:text-3xl transition-colors p-1 md:p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full flex-shrink-0"
               >
                 ×
               </button>
             </div>
-            <div className="prose prose-lg dark:prose-invert max-w-none prose-headings:text-slate-900 dark:prose-headings:text-white prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-a:text-blue-600 dark:prose-a:text-blue-400">
+            <div className="prose prose-base md:prose-lg dark:prose-invert max-w-none prose-headings:text-slate-900 dark:prose-headings:text-white prose-p:text-slate-700 dark:prose-p:text-slate-300 prose-a:text-blue-600 dark:prose-a:text-blue-400">
               <div
                 dangerouslySetInnerHTML={{ __html: formatEmailBody(randomEmail.body, userName) }}
-                className="whitespace-pre-wrap leading-relaxed"
+                className="whitespace-pre-wrap leading-relaxed text-sm md:text-base"
                 style={{
-                  fontSize: '1.0625rem',
                   lineHeight: '1.8'
                 }}
               />
