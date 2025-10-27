@@ -34,6 +34,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [userName, setUserName] = useState('friend')
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest')
 
   useEffect(() => {
     async function loadData() {
@@ -64,16 +65,22 @@ export default function Home() {
     loadData()
   }, [])
 
-  const filteredEmails = emails.filter(email => {
-    const matchesSearch = searchQuery === '' ||
-      email.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      email.body.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredEmails = emails
+    .filter(email => {
+      const matchesSearch = searchQuery === '' ||
+        email.subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        email.body.toLowerCase().includes(searchQuery.toLowerCase())
 
-    const matchesTopic = !selectedTopic ||
-      topics[selectedTopic]?.emails.some(e => e.id === email.id)
+      const matchesTopic = !selectedTopic ||
+        topics[selectedTopic]?.emails.some(e => e.id === email.id)
 
-    return matchesSearch && matchesTopic
-  })
+      return matchesSearch && matchesTopic
+    })
+    .sort((a, b) => {
+      const timeA = parseInt(a.timestamp || '0')
+      const timeB = parseInt(b.timestamp || '0')
+      return sortOrder === 'newest' ? timeB - timeA : timeA - timeB
+    })
 
   if (loading) {
     return (
@@ -141,12 +148,38 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="mb-8">
+      <div className="mb-8 space-y-4">
         <SearchBar
           value={searchQuery}
           onChange={setSearchQuery}
           placeholder="Search emails..."
         />
+
+        <div className="flex items-center gap-3">
+          <span className="text-sm font-medium text-slate-700 dark:text-slate-300">Sort by:</span>
+          <div className="flex gap-2">
+            <button
+              onClick={() => setSortOrder('newest')}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                sortOrder === 'newest'
+                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
+                  : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
+              }`}
+            >
+              Newest First
+            </button>
+            <button
+              onClick={() => setSortOrder('oldest')}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
+                sortOrder === 'oldest'
+                  ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
+                  : 'bg-white/60 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700'
+              }`}
+            >
+              Oldest First
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">

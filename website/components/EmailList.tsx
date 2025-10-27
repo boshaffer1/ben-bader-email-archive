@@ -24,6 +24,7 @@ function formatEmailBody(body: string, userName: string = 'friend'): string {
   // Replace name placeholders with user's name
   formatted = formatted.replace(/\bAdam\b/g, userName)
   formatted = formatted.replace(/\bBo\b/g, userName)
+  formatted = formatted.replace(/\bB\b/g, userName)
   formatted = formatted.replace(/first_name/g, userName)
 
   // Make URLs clickable with nice styling - extract domain name for display
